@@ -13,3 +13,8 @@ class ProductResponse(ProductBase):
 
     class Config:
         from_attributes = True
+
+class ProductUpdate(BaseModel):
+    name: str
+    price: float
+    stock: int

@@ -8,6 +8,7 @@ from app.schemas.product_schema import (
     ProductCreate,
     ProductResponse
 )
+from app.schemas.product_schema import ProductUpdate
 
 router = APIRouter()
 
@@ -60,3 +61,26 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Producto eliminado"}
+
+# UPDATE
+@router.put("/products/{product_id}")
+def update_product(
+    product_id: int,
+    updated_product: ProductUpdate,
+    db: Session = Depends(get_db)
+):
+
+    product = db.query(Product).filter(
+        Product.id == product_id
+    ).first()
+
+    if not product:
+        return {"message": "Producto no encontrado"}
+
+    product.name = updated_product.name
+    product.price = updated_product.price
+    product.stock = updated_product.stock
+
+    db.commit()
+
+    return {"message": "Producto actualizado"}
