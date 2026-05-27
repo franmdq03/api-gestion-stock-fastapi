@@ -10,6 +10,9 @@ from app.schemas.product_schema import (
 )
 from app.schemas.product_schema import ProductUpdate
 
+from app.auth.auth_bearer import get_current_user
+from app.auth.role_checker import admin_required
+
 router = APIRouter()
 
 # Dependencia DB
@@ -21,10 +24,11 @@ def get_db():
         db.close()
 
 # CREATE
-@router.post("/products", response_model=ProductResponse)
+@router.post("/products")
 def create_product(
     product: ProductCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
 ):
     new_product = Product(
         name=product.name,
@@ -52,7 +56,14 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 
 # DELETE
 @router.delete("/products/{product_id}")
-def delete_product(product_id: int, db: Session = Depends(get_db)):
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    
+    admin_required(user)
+
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -67,8 +78,11 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
 def update_product(
     product_id: int,
     updated_product: ProductUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
 ):
+    
+    admin_required(user)
 
     product = db.query(Product).filter(
         Product.id == product_id
