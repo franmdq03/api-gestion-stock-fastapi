@@ -185,8 +185,9 @@ Desarrollado por Francisco Garcia.
 
 - Docker
 - PostgreSQL
-- Deploy en Render
-- Alembic Migrations
-- Testing con Pytest
-- Refresh Tokens
+- Deploy cloud
+- Testing
 - CI/CD
+- Refresh Tokens
+- Redis cache
+- Frontend React
