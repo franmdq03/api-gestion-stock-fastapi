@@ -178,3 +178,15 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 # Autor
 
 Desarrollado por Francisco Garcia.
+
+---
+
+# Futuras mejoras
+
+- Docker
+- PostgreSQL
+- Deploy en Render
+- Alembic Migrations
+- Testing con Pytest
+- Refresh Tokens
+- CI/CD
